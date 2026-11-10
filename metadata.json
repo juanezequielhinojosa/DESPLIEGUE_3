@@ -1,0 +1,6 @@
+{
+  "name": "Universo 3D - Taller de Impresión 3D",
+  "description": "Tienda online y catálogo de Universo 3D. Productos impresos en 3D en PLA, PETG y resina con carrito persistente y pedidos directos por WhatsApp.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
