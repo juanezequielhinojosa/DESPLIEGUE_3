@@ -3,6 +3,7 @@ import { X, ShoppingBag, MessageCircle, Box, Check, Ruler, Clock, Layers } from 
 import { Producto } from '../types';
 import { useCart } from '../context/CartContext';
 import { WHATSAPP_PHONE } from '../lib/supabase';
+import { resolveProductImage } from '../lib/assets';
 
 interface ProductModalProps {
   producto: Producto | null;
@@ -57,7 +58,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({ producto, onClose })
         <div className="md:w-1/2 bg-slate-950 flex items-center justify-center relative min-h-[260px] md:min-h-full">
           {producto.imagen_url && !imageError ? (
             <img
-              src={producto.imagen_url}
+              src={resolveProductImage(producto.imagen_url)}
               alt={producto.nombre}
               referrerPolicy="no-referrer"
               onError={() => setImageError(true)}

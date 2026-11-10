@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowDown, Layers, Sparkles, ShieldCheck, Truck } from 'lucide-react';
+import { heroWorkshopImg } from '../lib/assets';
 
 interface HeroProps {
   onScrollToCatalog: () => void;
@@ -84,10 +85,14 @@ export const Hero: React.FC<HeroProps> = ({ onScrollToCatalog, onOpenCustomQuote
           <div className="lg:col-span-5 relative">
             <div className="relative rounded-2xl overflow-hidden border border-slate-800/80 bg-slate-900 shadow-2xl shadow-cyan-950/20 aspect-[4/3] lg:aspect-[5/4]">
               <img
-                src="/src/assets/images/hero_universo_workshop_1794337808698.jpg"
+                src={heroWorkshopImg}
                 alt="Taller de impresión 3D Universo 3D en Jujuy con impresoras operando y modelos geométricos"
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
+                onError={(e) => {
+                  // Fallback in case of bundle error
+                  (e.target as HTMLImageElement).src = '/images/hero_workshop.jpg';
+                }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent pointer-events-none" />
               

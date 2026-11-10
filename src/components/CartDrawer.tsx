@@ -4,6 +4,7 @@ import confetti from 'canvas-confetti';
 import { useCart } from '../context/CartContext';
 import { CheckoutData } from '../types';
 import { generateWhatsAppCheckoutUrl } from '../lib/supabase';
+import { resolveProductImage } from '../lib/assets';
 
 export const CartDrawer: React.FC = () => {
   const { cart, isCartOpen, setIsCartOpen, removeFromCart, updateQuantity, clearCart, subtotal, totalCount } = useCart();
@@ -124,9 +125,12 @@ export const CartDrawer: React.FC = () => {
                     <div className="w-16 h-16 rounded-lg bg-slate-950 overflow-hidden border border-slate-800 flex-shrink-0">
                       {item.producto.imagen_url ? (
                         <img
-                          src={item.producto.imagen_url}
+                          src={resolveProductImage(item.producto.imagen_url)}
                           alt={item.producto.nombre}
                           className="w-full h-full object-cover"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).style.display = 'none';
+                          }}
                         />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center text-cyan-500/70 font-mono text-[10px]">

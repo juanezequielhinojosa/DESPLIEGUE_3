@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ShoppingBag, Eye, Box, Check, Sparkles } from 'lucide-react';
 import { Producto } from '../types';
 import { useCart } from '../context/CartContext';
+import { resolveProductImage } from '../lib/assets';
 
 interface ProductCardProps {
   producto: Producto;
@@ -37,7 +38,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ producto, onOpenModal 
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-950/90 flex items-center justify-center">
         {producto.imagen_url && !imageError ? (
           <img
-            src={producto.imagen_url}
+            src={resolveProductImage(producto.imagen_url)}
             alt={producto.nombre}
             referrerPolicy="no-referrer"
             onError={() => setImageError(true)}

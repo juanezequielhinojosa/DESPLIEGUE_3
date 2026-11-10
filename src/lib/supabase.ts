@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import { Producto, CartItem, CheckoutData } from '../types';
+import { lampImg, planterImg, dragonImg, resolveProductImage } from './assets';
 
 export const SUPABASE_URL = 'https://uxfkzqblxvncdqcybbao.supabase.co';
 export const SUPABASE_ANON_KEY = 'sb_publishable_HO0mqGV6SSUtO2GcpHFRvA_wbYsp3-R';
@@ -13,7 +14,7 @@ export const FALLBACK_PRODUCTOS: Producto[] = [
     id: 'prod-001',
     nombre: 'Lámpara Espiral Voronoi de Mesa',
     precio: 14500,
-    imagen_url: '/src/assets/images/product_voronoi_lamp_1794337809984.jpg',
+    imagen_url: lampImg,
     material: 'PLA Madera / Ivory',
     stock: 8,
     descripcion: 'Lámpara de diseño paramétrico con estructura celular Voronoi. Incluye cable textil con interruptor y portalámpara E27.',
@@ -26,7 +27,7 @@ export const FALLBACK_PRODUCTOS: Producto[] = [
     id: 'prod-002',
     nombre: 'Maceta Geométrica Facetada Origami',
     precio: 4200,
-    imagen_url: '/src/assets/images/product_geometric_planter_1794337809850.jpg',
+    imagen_url: planterImg,
     material: 'PLA Mate Blanco',
     stock: 15,
     descripcion: 'Maceta de bajo poligonaje con drenaje interno optimizado para cactus y suculentas. Acabado arquitectónico limpio.',
@@ -39,7 +40,7 @@ export const FALLBACK_PRODUCTOS: Producto[] = [
     id: 'prod-003',
     nombre: 'Dragón Articulado Silk Dual-Color',
     precio: 9800,
-    imagen_url: '/src/assets/images/product_mechanical_dragon_1794337810599.jpg',
+    imagen_url: dragonImg,
     material: 'Silk PLA Púrpura / Dorado',
     stock: 6,
     descripcion: 'Dragón con más de 20 vértebras móviles impreso en una sola pieza (Print-in-Place). Acabado metalizado brillante con escamas de alta definición.',
@@ -128,15 +129,9 @@ export async function fetchProductos(): Promise<FetchProductosResult> {
     // Map and sanitize supabase data
     const mappedProductos: Producto[] = data.map((item, index) => {
       // Pick fallback image if imagen_url is empty or invalid
-      let img = item.imagen_url;
-      if (!img || typeof img !== 'string' || img.trim() === '') {
-        const fallbackImgs = [
-          '/src/assets/images/product_geometric_planter_1794337809850.jpg',
-          '/src/assets/images/product_voronoi_lamp_1794337809984.jpg',
-          '/src/assets/images/product_mechanical_dragon_1794337810599.jpg'
-        ];
-        img = fallbackImgs[index % fallbackImgs.length];
-      }
+      const fallbackImgs = [planterImg, lampImg, dragonImg];
+      const rawImg = item.imagen_url || fallbackImgs[index % fallbackImgs.length];
+      const img = resolveProductImage(rawImg);
 
       return {
         id: item.id ?? `sb-${index + 1}`,
